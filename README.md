@@ -1,0 +1,2 @@
+# USBMIDI_stm32f1
+USB MIDI library for STM32F1
