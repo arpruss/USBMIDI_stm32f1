@@ -1,0 +1,40 @@
+#######################################
+# Syntax Coloring Map KeyboardJoystickMouse
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+USBMIdi	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin			KEYWORD2
+end				KEYWORD2
+sendNoteOn			KEYWORD2
+sendNoteOff			KEYWORD2
+sendVelocityChange			KEYWORD2
+sendControlChange			KEYWORD2
+sendProgramChange			KEYWORD2
+sendAfterTouch			KEYWORD2
+sendPitchChange			KEYWORD2
+sendSongPosition			KEYWORD2
+sendSongSelect			KEYWORD2
+sendTuneRequest			KEYWORD2
+sendSync			KEYWORD2
+sendStart			KEYWORD2
+sendContinue			KEYWORD2
+sendStop			KEYWORD2
+sendActiveSense			KEYWORD2
+sendReset			KEYWORD2
+poll			KEYWORD2
+getParam			KEYWORD2
+available			KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+KEY_RETURN		LITERAL1
