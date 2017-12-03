@@ -32,7 +32,7 @@
  0xF7  End of SysEx
 */
 
-#include "midihid.h"
+#define USB_MIDI
 #ifdef USB_MIDI
 
 // change this to packets

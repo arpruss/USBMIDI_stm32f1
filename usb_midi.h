@@ -29,7 +29,7 @@
  * @brief Wirish USB MIDI port (MidiUSB).
  */
 
-#include "midihid.h" 
+#define USB_MIDI
  
 #ifdef USB_MIDI
 
@@ -213,7 +213,6 @@ public:
     virtual void handleActiveSense(void);
     virtual void handleReset(void);
 };
-
 
 extern USBMidi MidiUSB;
 

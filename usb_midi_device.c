@@ -34,8 +34,7 @@
  * the result made cleaner.
  */
 
-#include "midihid.h" 
- 
+#define USB_MIDI 
 #ifdef USB_MIDI
 
 #include "usb_midi_device.h"

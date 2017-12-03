@@ -34,10 +34,12 @@
  * upon each other.
  */
 
-#include "midihid.h"
+#define USB_MIDI
+#define USB_HARDWARE
 #include "boards_private.h"
 
-#include "usb_hid_device.h"
+#include "usb_midi.h"
+#include "usb_midi_device.h"
 #include <libmaple/gpio.h>
 #include <libmaple/timer.h>
 
@@ -48,7 +50,6 @@ namespace wirish {
     namespace priv {
 
         void board_setup_usb(void) {
-
 			
 #ifdef GENERIC_BOOTLOADER			
 			//Reset the USB interface on generic boards - developed by Victor PV

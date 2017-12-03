@@ -32,7 +32,7 @@
  * IMPORTANT: this API is unstable, and may change without notice.
  */
 
-
+#define USB_MIDI
 #ifdef USB_MIDI
 
 
