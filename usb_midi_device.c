@@ -438,6 +438,12 @@ void usb_midi_enable(gpio_dev *disc_dev, uint8 disc_bit) {
     usb_init_usblib(USBLIB, ep_int_in, ep_int_out);
 }
 
+static void usb_power_off() {
+    USB_BASE->CNTR = USB_CNTR_FRES;
+    USB_BASE->ISTR = 0;
+    USB_BASE->CNTR = USB_CNTR_FRES + USB_CNTR_PDWN;
+}
+
 void usb_midi_disable(gpio_dev *disc_dev, uint8 disc_bit) {
     /* Turn off the interrupt and signal disconnect (see e.g. USB 2.0
      * spec, section 7.1.7.3). */
@@ -445,6 +451,7 @@ void usb_midi_disable(gpio_dev *disc_dev, uint8 disc_bit) {
     if (disc_dev != NULL) {
         gpio_write_bit(disc_dev, disc_bit, 1);
     }
+    usb_power_off();
 }
 
 //void usb_midi_putc(char ch) {
