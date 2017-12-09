@@ -208,6 +208,7 @@ union EVENT_t {
 void USBMidi::dispatchPacket(uint32 p)
 {
     union EVENT_t e;
+
     
     e.i=p;
     // !!!!!!!!!!!!!!!!  Add a sysex handler  FIX THIS VERY VERY SHORTLY !!!!!!!!!!!!!!
@@ -514,14 +515,8 @@ unsigned int USBMidi::getParam(unsigned int param)
 
 // Placeholders.  You should subclass the Midi base class and define these to have your
 //  version called.
-void USBMidi::handleNoteOff(unsigned int channel, unsigned int note, unsigned int velocity) {
-    digitalWrite(33,0);
-}
- 
-void USBMidi::handleNoteOn(unsigned int channel, unsigned int note, unsigned int velocity) {
-    digitalWrite(33,1);
-}
-
+void USBMidi::handleNoteOff(unsigned int channel, unsigned int note, unsigned int velocity) {}
+void USBMidi::handleNoteOn(unsigned int channel, unsigned int note, unsigned int velocity) {}
 void USBMidi::handleVelocityChange(unsigned int channel, unsigned int note, unsigned int velocity) {}
 void USBMidi::handleControlChange(unsigned int channel, unsigned int controller, unsigned int value) {}
 void USBMidi::handleProgramChange(unsigned int channel, unsigned int program) {}

@@ -554,7 +554,6 @@ static void midiDataTxCb(void) {
 }
 
 static void midiDataRxCb(void) {
-    
     usb_set_ep_rx_stat(USB_MIDI_RX_ENDP, USB_EP_STAT_RX_NAK);
     n_unread_packets = usb_get_ep_rx_count(USB_MIDI_RX_ENDP) / 4;
     /* This copy won't overwrite unread bytes, since we've set the RX
