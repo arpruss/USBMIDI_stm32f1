@@ -34,8 +34,12 @@
  * upon each other.
  */
 
+#define USB_MIDI
+#define USB_HARDWARE
 #include "boards_private.h"
 
+#include "USBMIDI.h"
+#include "usb_midi_device.h"
 #include <libmaple/gpio.h>
 #include <libmaple/timer.h>
 
@@ -45,7 +49,9 @@
 
 namespace wirish {
     namespace priv {
+
         void board_setup_usb(void) {
 		}
+
     }
 }
