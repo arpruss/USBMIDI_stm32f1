@@ -256,14 +256,12 @@ static const usb_descriptor_config usbMIDIDescriptor_Config = {
 */
 
 /* Unicode language identifier: 0x0409 is US English */
-/* FIXME move to Wirish */
 static const usb_descriptor_string usbMIDIDescriptor_LangID = {
     .bLength         = USB_DESCRIPTOR_STRING_LEN(1),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
     .bString         = {0x09, 0x04},
 };
 
-/* FIXME move to Wirish */
 static const usb_descriptor_string usbMIDIDescriptor_iManufacturer = {
     .bLength = USB_DESCRIPTOR_STRING_LEN(8),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
@@ -271,7 +269,6 @@ static const usb_descriptor_string usbMIDIDescriptor_iManufacturer = {
                 'e', 0, ' ', 0, ' ', 0, ' ', 0},
 };
 
-/* FIXME move to Wirish */
 static const usb_descriptor_string usbMIDIDescriptor_iProduct = {
     .bLength = USB_DESCRIPTOR_STRING_LEN(10),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
@@ -279,14 +276,12 @@ static const usb_descriptor_string usbMIDIDescriptor_iProduct = {
   //  .bString = {'D', 0, 'i', 0, 'r', 0, 'o', 0, ' ', 0, 'S', 0, 'y', 0, 'n', 0, 't', 0, 'h', 0},
 };
 
-/* FIXME move to Wirish */
 static const usb_descriptor_string usbMIDIDescriptor_iInterface = {
     .bLength = USB_DESCRIPTOR_STRING_LEN(4),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
     .bString = {'M', 0, 'I', 0, 'D', 0, 'I', 0},
 };
 
-/* FIXME move to Wirish */
 static const usb_descriptor_string usbMIDIDescriptor_iJack1 = {
     .bLength = USB_DESCRIPTOR_STRING_LEN(5),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
