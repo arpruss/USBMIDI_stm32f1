@@ -438,7 +438,7 @@ void usb_midi_enable(gpio_dev *disc_dev, uint8 disc_bit) {
     usb_init_usblib(USBLIB, ep_int_in, ep_int_out);
 }
 
-static void usb_power_off() {
+static void usb_power_down() {
     USB_BASE->CNTR = USB_CNTR_FRES;
     USB_BASE->ISTR = 0;
     USB_BASE->CNTR = USB_CNTR_FRES + USB_CNTR_PDWN;
@@ -451,7 +451,7 @@ void usb_midi_disable(gpio_dev *disc_dev, uint8 disc_bit) {
     if (disc_dev != NULL) {
         gpio_write_bit(disc_dev, disc_bit, 1);
     }
-    usb_power_off();
+    usb_power_down();
 }
 
 //void usb_midi_putc(char ch) {

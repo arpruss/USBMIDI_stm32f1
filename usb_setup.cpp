@@ -38,8 +38,7 @@
 #define USB_HARDWARE
 #include "boards_private.h"
 
-#include "dummyserial.h"
-#include "usb_midi.h"
+#include "USBMIDI.h"
 #include "usb_midi_device.h"
 #include <libmaple/gpio.h>
 #include <libmaple/timer.h>
@@ -51,8 +50,6 @@
 namespace wirish {
     namespace priv {
 
-        static USBSerialNOP dummy;
-        
         void board_setup_usb(void) {
 			
 #ifdef GENERIC_BOOTLOADER			
@@ -69,11 +66,9 @@ namespace wirish {
 #endif
 #if  defined(USB_HARDWARE) && (defined(USB_HID_KMJ) || defined(USB_HID_KM) || defined(USB_HID_J))
 			HID.begin();
-            Serial = dummy;
 #endif
 #ifdef USB_MIDI
 			MidiUSB.begin();
-            Serial = dummy;
 #endif
 #endif
 		}

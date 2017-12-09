@@ -59,7 +59,7 @@
  
 #ifdef USB_MIDI
 
-#include "usb_midi.h"
+#include "USBMIDI.h"
 
 #include <string.h>
 #include <stdint.h>

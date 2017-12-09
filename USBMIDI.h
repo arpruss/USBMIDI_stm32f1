@@ -29,12 +29,11 @@
  * @brief Wirish USB MIDI port (MidiUSB).
  */
 
-#define USB_MIDI
- 
-#ifdef USB_MIDI
-
 #ifndef _WIRISH_USB_MIDI_H_
 #define _WIRISH_USB_MIDI_H_
+
+#define USB_MIDI
+#define USB_HARDWARE
 
 #include <Print.h>
 #include <boards.h>
@@ -218,6 +217,3 @@ extern USBMidi MidiUSB;
 
 
 #endif
-
-#endif
-
