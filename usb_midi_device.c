@@ -54,24 +54,6 @@
 #include "usb_core.h"
 #include "usb_def.h"
 
-/******************************************************************************
- ******************************************************************************
- ***
- ***   HACK ALERT! FIXME FIXME FIXME FIXME!
- ***
- ***   A bunch of LeafLabs-specific configuration lives in here for
- ***   now.  This mess REALLY needs to get teased apart, with
- ***   appropriate pieces moved into Wirish.
- ***
- ******************************************************************************
- *****************************************************************************/
-#warning passt alles
-#if !(defined(BOARD_maple) || defined(BOARD_maple_RET6) ||      \
-      defined(BOARD_maple_mini) || defined(BOARD_maple_native))
-#warning USB MIDI relies on LeafLabs board-specific configuration.\
-    You may have problems on non-LeafLabs boards.
-#endif
-
 static void midiDataTxCb(void);
 static void midiDataRxCb(void);
 
@@ -216,7 +198,7 @@ static const usb_descriptor_config usbMIDIDescriptor_Config = {
         .bDescriptorType    = USB_DESCRIPTOR_TYPE_CS_INTERFACE,
         .SubType            = MIDI_OUT_JACK,
         .bJackType          = MIDI_JACK_EXTERNAL,
-        .bJackId            = 0x04,
+//        .bJackId            = 0x04,
         .bJackId            = 0x03,
         .bNrInputPins       = 0x01,
         .baSourceId         = {0x01},
@@ -391,7 +373,7 @@ static void (*ep_int_out[7])(void) =
 DEVICE Device_Table = {
     .Total_Endpoint      = NUM_ENDPTS,
     .Total_Configuration = 1
-};
+}; 
 
 #define MAX_PACKET_SIZE            0x40  /* 64B, maximum for USB FS Devices */
 DEVICE_PROP Device_Property = {
@@ -429,7 +411,8 @@ void usb_midi_enable(gpio_dev *disc_dev, uint8 disc_bit) {
     /* Present ourselves to the host. Writing 0 to "disc" pin must
      * pull USB_DP pin up while leaving USB_DM pulled down by the
      * transceiver. See USB 2.0 spec, section 7.1.7.3. */
-    if (disc_dev != NULL) {
+
+     if (disc_dev != NULL) {
         gpio_set_mode(disc_dev, disc_bit, GPIO_OUTPUT_PP);
         gpio_write_bit(disc_dev, disc_bit, 0);
     }
@@ -458,6 +441,38 @@ void usb_midi_disable(gpio_dev *disc_dev, uint8 disc_bit) {
 //    while (!usb_midi_tx((uint8*)&ch, 1))
 //        ;
 //}
+
+ /* TODO these could use some improvement; they're fairly
+ * straightforward ports of the analogous ST code.  The PMA blit
+ * routines in particular are obvious targets for performance
+ * measurement and tuning. */
+
+static void usb_copy_to_pma(const uint8 *buf, uint16 len, uint16 pma_offset) {
+    uint16 *dst = (uint16*)usb_pma_ptr(pma_offset);
+    uint16 n = len >> 1;
+    uint16 i;
+    for (i = 0; i < n; i++) {
+        *dst = (uint16)(*buf) | *(buf + 1) << 8;
+        buf += 2;
+        dst += 2;
+    }
+    if (len & 1) {
+        *dst = *buf;
+    }
+}
+
+static void usb_copy_from_pma(uint8 *buf, uint16 len, uint16 pma_offset) {
+    uint32 *src = (uint32*)usb_pma_ptr(pma_offset);
+    uint16 *dst = (uint16*)buf;
+    uint16 n = len >> 1;
+    uint16 i;
+    for (i = 0; i < n; i++) {
+        *dst++ = *src++;
+    }
+    if (len & 1) {
+        *dst = *src & 0xFF;
+    }
+}
 
 /* This function is non-blocking.
  *
