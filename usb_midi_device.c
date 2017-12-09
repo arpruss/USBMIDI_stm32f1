@@ -34,9 +34,6 @@
  * the result made cleaner.
  */
 
-#define USB_MIDI 
-#ifdef USB_MIDI
-
 #include "usb_midi_device.h"
 #include <MidiSpecs.h>
 #include <MinSysex.h>
@@ -421,6 +418,11 @@ USER_STANDARD_REQUESTS User_Standard_Requests = {
     .User_SetDeviceAddress   = usbSetDeviceAddress
 };
 
+DEVICE saved_Device_Table;
+DEVICE_PROP saved_Device_Property;
+USER_STANDARD_REQUESTS saved_User_Standard_Requests;
+
+
 /*
  * MIDI interface
  */
@@ -429,6 +431,23 @@ void usb_midi_enable(gpio_dev *disc_dev, uint8 disc_bit) {
     /* Present ourselves to the host. Writing 0 to "disc" pin must
      * pull USB_DP pin up while leaving USB_DM pulled down by the
      * transceiver. See USB 2.0 spec, section 7.1.7.3. */
+    saved_Device_Table = Device_Table;
+    saved_Device_Property = Device_Property;
+    saved_User_Standard_Requests = User_Standard_Requests;
+
+/*    Device_Table = my_Device_Table;
+    Device_Property = my_Device_Property;
+    User_Standard_Requests = my_User_Standard_Requests; */
+
+#ifdef GENERIC_BOOTLOADER			
+    //Reset the USB interface on generic boards - developed by Victor PV
+    gpio_set_mode(GPIOA, 12, GPIO_OUTPUT_PP);
+    gpio_write_bit(GPIOA, 12, 0);
+    
+    for(volatile unsigned int i=0;i<512;i++);// Only small delay seems to be needed
+    gpio_set_mode(GPIOA, 12, GPIO_INPUT_FLOATING);
+#endif			
+
     if (disc_dev != NULL) {
         gpio_set_mode(disc_dev, disc_bit, GPIO_OUTPUT_PP);
         gpio_write_bit(disc_dev, disc_bit, 0);
@@ -451,6 +470,11 @@ void usb_midi_disable(gpio_dev *disc_dev, uint8 disc_bit) {
     if (disc_dev != NULL) {
         gpio_write_bit(disc_dev, disc_bit, 1);
     }
+    
+    Device_Table = saved_Device_Table;
+    Device_Property = saved_Device_Property;
+    User_Standard_Requests = saved_User_Standard_Requests;
+
     usb_power_down();
 }
 
@@ -775,5 +799,3 @@ uint8_t iSysHexLine(uint8_t rectype, uint16_t address, uint8_t *payload,uint8_t 
     buffer[i++]=0xf7;
     return i+thirdone;
 }
-
-#endif

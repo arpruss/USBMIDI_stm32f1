@@ -34,12 +34,8 @@
  * upon each other.
  */
 
-#define USB_MIDI
-#define USB_HARDWARE
 #include "boards_private.h"
 
-#include "USBMIDI.h"
-#include "usb_midi_device.h"
 #include <libmaple/gpio.h>
 #include <libmaple/timer.h>
 
@@ -49,29 +45,7 @@
 
 namespace wirish {
     namespace priv {
-
         void board_setup_usb(void) {
-			
-#ifdef GENERIC_BOOTLOADER			
-			//Reset the USB interface on generic boards - developed by Victor PV
-			gpio_set_mode(PIN_MAP[PA12].gpio_device, PIN_MAP[PA12].gpio_bit, GPIO_OUTPUT_PP);
-			gpio_write_bit(PIN_MAP[PA12].gpio_device, PIN_MAP[PA12].gpio_bit,0);
-			
-			for(volatile unsigned int i=0;i<512;i++);// Only small delay seems to be needed, and USB pins will get configured in Serial.begin
-			gpio_set_mode(PIN_MAP[PA12].gpio_device, PIN_MAP[PA12].gpio_bit, GPIO_INPUT_FLOATING);
-#endif			
-#ifdef USB_HARDWARE 
-#ifdef USB_SERIAL
-			Serial.begin();// Roger Clark. Changed SerialUSB to Serial for Arduino sketch compatibility
-#endif
-#if  defined(USB_HARDWARE) && (defined(USB_HID_KMJ) || defined(USB_HID_KM) || defined(USB_HID_J))
-			HID.begin();
-#endif
-#ifdef USB_MIDI
-			MidiUSB.begin();
-#endif
-#endif
 		}
-
     }
 }
